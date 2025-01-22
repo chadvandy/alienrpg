@@ -32,14 +32,16 @@ export class alienrpgActorSheet extends ActorSheet {
 		});
 	}
 	get template() {
-		const path = 'systems/alienrpg/templates/actor/';
+		// oh my gosh it's hardlinked!
+		const path = 'systems/alienrpg-fork/templates/actor/';
 		// return `${path}actor-sheet.html`;
 		// unique item sheet by type, like `weapon-sheet.html`.
-		if (game.settings.get('alienrpg', 'aliencrt')) {
-			return `systems/alienrpg/templates/actor/crt/${this.actor.type}-sheet.html`;
-		} else {
+		// if (game.settings.get('alienrpg', 'aliencrt')) {
+			// return `${path}/crt/${this.actor.type}-sheet.html`;
+			// return `systems/alienrpg/templates/actor/crt/${this.actor.type}-sheet.html`;
+		// } else {
 			return `${path}${this.actor.type}-sheet.html`;
-		}
+		// }
 	}
 
 	/* -------------------------------------------- */
@@ -56,6 +58,10 @@ export class alienrpgActorSheet extends ActorSheet {
 		// Basic data
 
 		const isOwner = this.document.isOwner;
+		let crt = "";
+		if (game.settings.get('alienrpg', 'aliencrt')) {
+			crt = "crt";
+		}
 		let data = {
 			id: this.actor.id,
 			actor: foundry.utils.deepClone(this.actor),
@@ -68,6 +74,8 @@ export class alienrpgActorSheet extends ActorSheet {
 			isCharacter: this.actor.type === 'character',
 			isGM: game.user.isGM,
 			owner: this.object.isOwner,
+			crt: crt,
+			isLimited: this.document.testUserPermission(game.user, foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED, {exact: true}),
 			options: options,
 			config: CONFIG.ALIENRPG,
 		};

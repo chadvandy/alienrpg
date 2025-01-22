@@ -1216,6 +1216,8 @@ export class alienrpgActor extends Actor {
 		}
 	}
 
+	
+
 	async creatureAttackRoll(actor, dataset, manCrit) {
 		let chatMessage = '';
 		let customResults = '';
